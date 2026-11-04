@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Brake, Not the Engine — a live policy kernel for agent payments</title>
+<meta name="description" content="A working policy kernel for autonomous payment agents. The model proposes, deterministic code decides, escrow releases only on verified delivery." />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="sheet">
+
+  <header class="masthead">
+    <div class="masthead__lede">
+      <h1>The brake,<br />not the engine.</h1>
+      <p class="standfirst">A payment agent fails in three places: authority that does not survive a hop, delivery that nobody checks, and a model sitting inside the trust boundary. This console runs the third one against a policy kernel that has no model in it.</p>
+      <p class="provenance">Every amount below is illustrative. The kernel logic is not: it runs on the proposal you select.</p>
+    </div>
+    <div class="masthead__ledger" aria-label="Run totals">
+      <dl class="ledger">
+        <div class="ledger__row"><dt>Released</dt><dd id="stat-spent" class="num">$0.000</dd></div>
+        <div class="ledger__row"><dt>Refused</dt><dd id="stat-refused" class="num">0</dd></div>
+        <div class="ledger__row"><dt>Escrowed</dt><dd id="stat-locked" class="num">$0.000</dd></div>
+        <div class="ledger__row ledger__row--critical"><dt>Settled without delivery</dt><dd id="stat-bad" class="num">0</dd></div>
+      </dl>
+      <div class="masthead__actions">
+        <button id="run-all" class="btn btn--primary" type="button">Run all seven cases</button>
+        <button id="reset" class="btn btn--quiet" type="button">Reset</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="desk">
+    <nav class="docket" aria-label="Case file">
+      <h2 class="docket__title">Case file</h2>
+      <ol class="docket__list" id="case-list" role="list"></ol>
+      <p class="docket__foot">Cases are not anecdotes. Each one is an attack class from the threat model, run against the same policy.</p>
+    </nav>
+
+    <section class="run" aria-label="Kernel run">
+      <div class="run__head">
+        <h2 id="case-name" class="run__name">Select a case</h2>
+        <p id="case-blurb" class="run__blurb">Seven proposals, one policy. Pick a case to run it.</p>
+      </div>
+
+      <div class="run__body">
+        <article class="paper proposal" aria-labelledby="proposal-title">
+          <header class="paper__head">
+            <h3 id="proposal-title">Proposal</h3>
+            <p class="paper__meta">planner · assume hostile</p>
+          </header>
+          <dl class="fields" id="proposal-fields"></dl>
+          <p class="paper__note">Nothing in this card is trusted. Every field is re-derived against the policy on the right.</p>
+        </article>
+
+        <article class="paper kernel" aria-labelledby="kernel-title">
+          <header class="paper__head">
+            <h3 id="kernel-title">Policy kernel</h3>
+            <p class="paper__meta">deterministic · no model</p>
+          </header>
+          <ul class="checks" id="checks" role="list"></ul>
+          <div class="verdict" id="verdict" aria-live="polite" data-state="idle">
+            <span class="verdict__label" id="verdict-label">Awaiting a case</span>
+            <span class="verdict__reason" id="verdict-reason"></span>
+          </div>
+        </article>
+      </div>
+
+      <div class="escrow" aria-labelledby="escrow-title">
+        <h3 id="escrow-title" class="escrow__title">Settlement</h3>
+        <ol class="rail" id="rail" role="list">
+          <li data-step="authorise"><span>Authorise</span></li>
+          <li data-step="lock"><span>Lock</span></li>
+          <li data-step="deliver"><span>Deliver</span></li>
+          <li data-step="verify"><span>Verify</span></li>
+          <li data-step="release"><span>Release</span></li>
+        </ol>
+        <p class="escrow__note" id="escrow-note">Nothing locked. The rail only moves after the kernel approves.</p>
+      </div>
+    </section>
+  </main>
+
+  <section class="audit" aria-labelledby="audit-title">
+    <div class="audit__head">
+      <h2 id="audit-title">Audit trail</h2>
+      <p>Append-only, hash-chained. The hash is illustrative — a real one is SHA-256 over the previous entry.</p>
+    </div>
+    <table class="log">
+      <thead>
+        <tr><th scope="col">#</th><th scope="col">Case</th><th scope="col">Decision</th><th scope="col">Amount</th><th scope="col">Prev</th><th scope="col">Hash</th></tr>
+      </thead>
+      <tbody id="log-body">
+        <tr class="log__empty"><td colspan="6">No decisions yet.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer class="colophon">
+    <p class="invariant">Enforcement sits below the model. Model proposes. Kernel disposes.</p>
+    <p class="colophon__meta">Policy: $0.05 per transaction · $0.04 per session · allowlist of two payees · six checks, all evaluated, none short-circuited.</p>
+  </footer>
+
+</div>
+<script src="app.js"></script>
+</body>
+</html>
